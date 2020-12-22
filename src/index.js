@@ -2,16 +2,27 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {Provider} from 'react-redux';
+import {createStore,applyMiddleware} from 'redux';
+import Reducer from './reducers';
+import {composeWithDevTools} from 'redux-devtools-extension';
+import thunk from 'redux-thunk';
+
+
+const initialState = localStorage.getItem('cartItems') ? {cartItems:JSON.parse(localStorage.getItem('cartItems'))}: [];
+
+
+
 
 ReactDOM.render(
-  <React.StrictMode>
+  <Provider store={createStore(Reducer,initialState,composeWithDevTools(applyMiddleware(thunk)))} >
     <App />
-  </React.StrictMode>,
+  </Provider>,
   document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+
